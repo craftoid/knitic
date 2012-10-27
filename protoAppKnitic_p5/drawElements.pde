@@ -22,24 +22,28 @@ void display(){
   rect(25,340,180,35);
   rect(25,390,180,35);
   rect(25,440,180,35);
+  rect(25,490,180,35);
   fill(255); 
   // columne left
-  text("Row:"+Integer.toString(current_row),30,120);
-  text("Section: 200",30,170);
-  text("Stich: 200",30,220);
-  text("Width: "+Integer.toString(cols),30,320);  
-  text("Height: "+Integer.toString(rows),30,370); 
-  text("Left Stick: "+Integer.toString(leftStick),30,420);
-  text("Right Stick: "+Integer.toString(rightStick),30,470);  
+  if(current_row<0){ text("Row:-",30,120); }else{ text("Row:"+Integer.toString(current_row),30,120); }
+  if(section<0){text("Section: -",30,170);}else{text("Section: "+Integer.toString(section),30,170);}
+  if(section<0){text("Stich: -",30,220);}else{text("Stich: "+Integer.toString((section-1)*8)+"-"+Integer.toString(section*8),30,220);}
+  if(cols<0){text("Width: -",30,320);}else{text("Width: "+Integer.toString(cols),30,320); } 
+  if(rows<0){text("Height: -",30,370);}else{text("Height: "+Integer.toString(rows),30,370); }
+  if(leftStick<0){text("Left Stick: -",30,420);}else{text("Left Stick: "+Integer.toString(leftStick),30,420);}
+  if(rightStick<0){text("Right Stick: -",30,470);}else{text("Right Stick: "+Integer.toString(rightStick),30,470);} 
+  if(endLineStarted){ text("Started",30,520); }else{ text("Not started",30,520); }
+  text("Left pixel: "+Integer.toString(((100-leftStick)/8)),30,570);
+  text("Right pixel: "+Integer.toString(((100+rightStick)/8)),30,630);
   // columne right
   stroke(255);
   noFill();
   rect(855,140,180,35);
   rect(855,90,180,35);
   fill(255);
-  if(direction=="-"){ text("Direction: none",30,270); }else if(direction=="1"){ text("Direction: right",30,270); }else if(direction=="-1"){ text("Direction: left",650,30); }
+  if(headDirection==0){ text("Direction: none",30,270); }else if(headDirection==1){ text("Direction: right",30,270); }else if(headDirection==-1){ text("Direction: left",30,270); }
   if(usbConected){    text("USB: conected",865,120);}else{ text("USB: disconected",865,120); }
-  if(status=="0"){    text("Status: stop",865,170); }else if(status=="1"){ text("Status: knitting",870,170); }
+  text("Status: "+status,865,170);
   noStroke();
   // scroll bar
   fill(16,62,104);
@@ -69,13 +73,17 @@ void draw16selenoids(){
   strokeWeight(1);
   rect(0,0,16*10,10);
   noStroke();
+  try{
   for(int i=0;i<16;i++){
     if( _16Selenoids.substring(i,i+1).equals("0") ){
-      fill(73,202,250);
+       fill(73,202,250);
     }else{
-      fill(0,0,0);
+       fill(0,0,0);
     }
     rect(2+i*10,3,5,5);
+  }
+  }catch(Exception e) {
+    _16Selenoids.length();
   }
   popMatrix();
 }
